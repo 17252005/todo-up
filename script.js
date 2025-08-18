@@ -7,6 +7,13 @@ let todoInput, addBtn, todoList, filterBtns, clearCompletedBtn, clearAllBtn;
 let totalTasksEl, completedTasksEl, activeTasksEl;
 
 // HTMLの解析が終了したときに実行される処理
+// 各イベントのリスナーを設定
+addBtn.addEventListener("click", addTodo); // 「+」ボタンがクリックされたらaddTodoメソッドを呼び出す
+todoInput.addEventListener("keypress", (e) => {
+  console.log(e);
+  if (e.key === "Enter") addTodo();
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   // HTML要素を取得して、変数に保存する
   todoInput = document.getElementById("todoInput");
@@ -19,3 +26,33 @@ document.addEventListener("DOMContentLoaded", () => {
   completedTasksEl = document.getElementById("completedTasks");
   activeTasksEl = document.getElementById("activeTasks");
 });
+// タスク追加
+function addTodo() {
+  const text = todoInput.value.trim(); // 入力されたテキストを取得し、前後の空白を削除
+  if (!text) return; // テキストが空なら何もしない
+
+  // 新しいタスクのデータを作成
+  const todo = {
+    id: Date.now(), // ユニークなIDとして現在時刻のタイムスタンプを使用
+    text: text,
+    completed: false, // 最初は未完了
+  };
+
+  todos.push(todo); // 配列にタスクを追加
+  renderTodos(); // タスクを再描画
+  todoInput.value = ""; // 入力欄を空にする
+}
+
+// タスク完了切替
+function renderTodos() {
+  // 実際のタスクを描画する処理（後で詳しく実装）
+  todoList.innerHTML = todos
+    .map(
+      (todo) => `
+        <div class="todo-item">
+            <span class="todo-text">${todo.text}</span>
+        </div>
+    `
+    )
+    .join("");
+}
