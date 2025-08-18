@@ -13,6 +13,9 @@ todoInput.addEventListener("keypress", (e) => {
   console.log(e);
   if (e.key === "Enter") addTodo();
 });
+// localStorageからタスクデータを読み込んで描画
+todos = loadTodos();
+renderTodos();
 
 document.addEventListener("DOMContentLoaded", () => {
   // HTML要素を取得して、変数に保存する
@@ -55,4 +58,14 @@ function renderTodos() {
     `
     )
     .join("");
+}
+// LocalStorageへの保存
+function saveTodos() {
+  localStorage.setItem("todos", JSON.stringify(todos)); // todos配列をJSON形式の文字列に変換してlocalStorageに保存
+}
+
+// LocalStorageからの読み込み
+function loadTodos() {
+  const todos = localStorage.getItem("todos"); // localStorageからデータを読み込む
+  return todos ? JSON.parse(todos) : []; // JSONオブジェクトに変換して返す
 }
